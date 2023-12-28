@@ -1,0 +1,9 @@
+# -*- mode:org; tab-width:4; coding:utf-8; -*-
+#+title:	SICP Notes and Exercises
+#+author: 	Lee Thompson
+#+date: 	[2023-12-28 Thu]
+
+* Summary
+Just some notes and code examples for exercises found in Abelson and Sussman's [[https://en.wikipedia.org/wiki/Structure_and_Interpretation_of_Computer_Programs][Structure and Interpretation of Computer Programs]].
+
+Code is organised by language, then section/exercise.

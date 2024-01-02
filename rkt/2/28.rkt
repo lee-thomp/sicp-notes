@@ -6,8 +6,17 @@
 (require test-engine/racket-tests)
 
 (define (fringe lst)
-  (define (fringe-inner x y)
-    (cond [(empty? x) y]
-          [(pair? x) (append (fringe (car x)) (fringe (cdr x)))]
-          [else (append (list x) y)]))
-  (fringe-inner lst '()))
+  (cond [(empty? lst) '()]
+        [(not (pair? lst)) (list lst)]
+        [else (append (fringe (car lst)) (fringe (cdr lst)))]))
+
+
+(define x (list (list 1 2) (list 3 4)))
+
+(check-expect (fringe x)
+              '(1 2 3 4))
+
+(check-expect (fringe (list x x))
+              '(1 2 3 4 1 2 3 4))
+
+(test)

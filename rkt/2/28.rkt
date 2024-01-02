@@ -5,10 +5,18 @@
 
 (require test-engine/racket-tests)
 
+;;; Mostly found via trial-and-error. :(
 (define (fringe lst)
-  (cond [(empty? lst) '()]
-        [(not (pair? lst)) (list lst)]
-        [else (append (fringe (car lst)) (fringe (cdr lst)))]))
+  (define (fringe-inner x result)
+    (cond [(empty? x) result]
+          [(not (pair? x)) (list x)]
+          [else
+           (fringe-inner
+            (cdr x)                     ; Move to next item.
+            (append result
+                    ;; Take fringe of sub-list.
+                    (fringe-inner (car x) '())))]))
+  (fringe-inner lst '()))
 
 
 (define x (list (list 1 2) (list 3 4)))

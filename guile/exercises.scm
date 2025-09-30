@@ -85,9 +85,11 @@
 
 ;;; Exercise 2.3
 
-;;; For this exercise I'll assume rectangles are always aligned to the axes,
+;;; —For this exercise I'll assume rectangles are always aligned to the axes,
 ;;; i.e. not rotated wrt. x and y.
 
+;;; Due to scoping stuff the procedures for getting a width and height from a
+;;; rectangle must be passed in as parameters to these functions:
 (define (perimeter-rectangle w h r)
   (* 2 (+ (w r)
           (h r))))
@@ -117,8 +119,30 @@
   (define rectangle (make-rectangle
                      (make-point 0 0)
                      (make-point 1 1)))
-    
+
   (test-eqv 4 (perimeter-rectangle width-rectangle height-rectangle rectangle))
   (test-eqv 1 (area-rectangle width-rectangle height-rectangle rectangle)))
+
+(test-group "Approach 2"
+  ;; In this wacky approach all rectangles are created 'golden' i.e. with
+  ;; dimensions given by successive numbers in the Fibonacci sequence:
+  (define make-rectangle identity)
+
+  (define (fib n)
+    (define (fib-inner a b c)
+      (if (zero? c) a
+          (fib-inner b (+ a b) (- c 1))))
+    (fib-inner 0 1 n))
+
+  (define (width-rectangle r)
+    (fib r))
+
+  (define (height-rectangle r)
+    (fib (+ r 1)))
+
+  (define rectangle (make-rectangle 5))
+
+  (test-eqv 26 (perimeter-rectangle width-rectangle height-rectangle rectangle))
+  (test-eqv 40 (area-rectangle width-rectangle height-rectangle rectangle)))
 
 (test-end "Exercise 2.3")

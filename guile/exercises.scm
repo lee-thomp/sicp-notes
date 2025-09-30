@@ -146,3 +146,32 @@
   (test-eqv 40 (area-rectangle width-rectangle height-rectangle rectangle)))
 
 (test-end "Exercise 2.3")
+
+
+;;; Exercise 2.4
+
+;;; Note the right single quotes here to prevent override issues —I would like
+;;; to use unicode prime (′) but my font doesn't render it in monospace for some
+;;; reason
+(define (cons’ x y)
+  (lambda (m) (m x y)))
+
+(define (car’ z)
+  (z (lambda (p q) p)))
+
+(test-begin "Exercise 2.4")
+
+;;;    (car’ (cons’ 'a 'b))
+;;; => (car’ (lambda (m) (m 'a 'b)))
+;;; => ((lambda (m) (m 'a 'b)) (lambda (p q) p))
+;;; => ((lambda (p q) p) 'a 'b)
+;;; => 'a
+(test-eq 'x (car’ (cons’ 'x 'y)))
+
+;; Matching implementation of `cdr':
+(define (cdr’ z)
+  (z (lambda (p q) q)))
+
+(test-eq 'y (cdr’ (cons’ 'x 'y)))
+
+(test-end "Exercise 2.4")
